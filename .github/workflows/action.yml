@@ -3,8 +3,25 @@ name: Cargo Build & Test
 on:
   push:
   pull_request:
-
-env: 
+  
+  workflow_call:
+    inputs:
+      enable_fib:
+      description: 'enable_fib'
+      required: true
+      type: bool
+      max_threshold:
+        description: 'maxthreshold'
+        default: '10'
+        required: true
+        type: int
+    runs: 
+    using: 'docker'
+    image: 'Dockerfile'
+    args:
+      - ${{ inputs.enable_fib }}
+      - ${{ inputs.max_threshold }}
+  env: 
   CARGO_TERM_COLOR: always
 
 jobs:
@@ -21,4 +38,7 @@ jobs:
       - run: cargo build --verbose
       - run: cargo test --verbose
       - run: cargo run --verbose
-  
+
+          
+      
+    
