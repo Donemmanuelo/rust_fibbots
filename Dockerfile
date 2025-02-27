@@ -14,3 +14,5 @@ COPY --from=builder /app/target/release/fibbot /app/fibbot
 
 CMD["./fibbot"]
 
+ENTRYPOINT["./fibbot"]
+
