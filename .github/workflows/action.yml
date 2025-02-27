@@ -6,25 +6,27 @@ on:
   pull_request:
     branches:
       - main
+      
   workflow_call:
     inputs:
       enable_fib:
       description: 'enable_fib'
       required: true
-      type: bool
-      max_threshold:
-        description: 'maxthreshold'
-        default: '10'
-        required: true
-        type: int
+      type: boolean
+    max_threshold:
+    description: 'maxthreshold'
+    default: '10'
+    required: true
+    type: number
     runs: 
     using: 'docker'
     image: 'Dockerfile'
     args:
-      - ${{ inputs.enable_fib }}
-      - ${{ inputs.max_threshold }}
-  env: 
-  CARGO_TERM_COLOR: always
+    - ${{ inputs.enable_fib }}
+    - ${{ inputs.max_threshold }}
+    
+env: 
+CARGO_TERM_COLOR: always
 
 jobs:
   build_and_test:
