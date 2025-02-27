@@ -1,9 +1,6 @@
 name: Cargo Build & Test
 
-on:
-  push:
-  pull_request:
-  
+on:  
   workflow_call:
     inputs:
       enable_fib:
