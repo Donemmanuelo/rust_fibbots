@@ -1,27 +1,31 @@
-name: Mixed inputs
+name: Rust CI
 
 on:
   push:
+  pull_request:
   workflow_dispatch:
     inputs:
-      name:
-        type: choice
-        description: Who to greet
-        options: 
-        - monalisa
-        - cschleiden
-      message:
+      build_type:
+        description: 'Build type (debug or release)'
         required: true
-        type: boolean
-      use-emoji:
-      description: Include 🎉🤣 emojis
-      environment:
-        type: environment
+        default: 'debug'
+
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
-  greet:
+  build_and_test:
+    name: Rust project - ${{ matrix.toolchain }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain:
+          - stable
+          - beta
+          - nightly
 
     steps:
-    - name: Send greeting
-      run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+      - uses: actions/checkout@v4
+      - run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
+      - run: cargo build --verbose --${{ github.event.inputs.build_type }}
+      - run: cargo test --verbose
