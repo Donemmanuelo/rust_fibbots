@@ -12,5 +12,5 @@ Run apt-get update && apt-get install libssl-dev -y
 
 COPY --from=builder /app/target/release/fibbots /app/fibbots
 
-ENTRYPOINT["./fibbots"]
+ENTRYPOINT ["./fibbots"]
 
