@@ -10,7 +10,7 @@ FROM debian:latest
 
 Run apt-get update && apt-get install libssl-dev -y
 
-COPY --from=builder /app/target/release/fibbots /app/fibbots
+COPY --from=builder /app/target/release/fibbot /app/fibbot
 
-ENTRYPOINT ["./fibbots"]
+ENTRYPOINT ["./fibbot"]
 
