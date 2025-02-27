@@ -5,10 +5,15 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      build_type:
+      enable_fib:
         description: 'Build type (debug or release)'
         required: true
-        default: 'debug'
+        default: 'true'
+        type: boolean
+      max_threshold:
+       description: 'Build type (debug or release)'
+       default: '100'
+       type: number
 
 env:
   CARGO_TERM_COLOR: always
@@ -21,11 +26,10 @@ jobs:
       matrix:
         toolchain:
           - stable
-          - beta
-          - nightly
+         
 
     steps:
       - uses: actions/checkout@v4
       - run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
-      - run: cargo build --verbose --${{ github.event.inputs.build_type }}
+      - run: cargo build --verbose --${{ github.event.inputs.enable_fib }}  --${{ github.event.inputs.threshold }}
       - run: cargo test --verbose
