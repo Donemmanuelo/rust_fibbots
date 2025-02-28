@@ -1,16 +1,36 @@
-
 name: CI Workflow
 on: 
- push:
- pull_request: 
+  push:
+  pull_request: 
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Check out the repository
       - uses: actions/checkout@v2
+
+      # Set up Rust toolchain
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      # Build the Rust project
+      - name: Build
+        run: cargo build --release
+
+      # Run the custom action with environment variables
       - name: Run My Custom Action
         uses: ./
-        with:
+        env:
           max_threshold: 100
           enable_fib: true
 
+      # Build and run the Docker container
+      - name: Run Docker Container
+        run: |
+          docker build -t my-fibbot .
+          docker run --rm \
+            -e max_threshold=100 \
+            -e enable_fib=true \
+            -v $(pwd):/workspace \
+            my-fibbot ./target/release/fibbot

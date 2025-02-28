@@ -1,28 +1,28 @@
+use std::env;
+
 use tests::lib::fibbonnacci;
+
 fn main() {
-    let y = 1;
- 
-   let args =   Args::parse();
-   let v = args.args1;
-   let u =args.args2;
-  
-if u == true && v >= y {
-    let x = fibbonnacci(v, u, y);
-    println!("The fibbonacci of {y} is: {:?}", x);
-}
+    let y = 100;
+    let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
+        eprintln!("Environment variable 'max_threshold' not set");
+        std::process::exit(1);
+    });
+    let enable_fib = env::var("enable_fib").unwrap_or_else(|_| {
+        eprintln!("Environment variable 'enable_fib' not set");
+        std::process::exit(1);
+    });
+    let v: u128 = max_threshold.trim().parse().expect("invalid input");
+    let u: bool = enable_fib.trim().parse().expect("invalid input");
 
-   
-}
-use clap::Parser;
-#[derive(Parser)]
-pub struct Args {
-
-    args1: u128,
-  
-    args2: bool,
+    if u == true && v >= y {
+        let x = fibbonnacci(v, u, y);
+        println!("The fibbonnacci of {y} is: {:?}", x);
+    }
 }
 
 mod tests;
+
 #[cfg(test)]
 mod test {
     use crate::tests::lib::fibbonnacci;
@@ -32,10 +32,10 @@ mod test {
         use crate::main;
         assert_eq!(main(), ());
     }
+
     #[test]
     fn test_fibbonacci() {
-        
         assert_ne!(fibbonnacci(100, false, 8), 21);
-        assert_eq!(fibbonnacci(1, true, 1 ), 1);
+        assert_eq!(fibbonnacci(1, true, 1), 1);
     }
 }
