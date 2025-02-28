@@ -7,3 +7,4 @@ edition = "2021"
 clap = { version = "4.0", features = ["derive"] }
 num-bigint="0.4.3"
 num-traits="0.2.14"
+regex = "1"

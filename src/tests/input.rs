@@ -1,7 +1,11 @@
+use regex::Regex;
 
-pub fn parse_number(input: &str) -> Vec<u128> {
-    input
-    .split_whitespace()
-    .filter_map(|n| n.parse::<u128>().ok())
-    .collect()
+pub fn extract_numbers(input: &str) -> Vec<u128> {
+  
+    let re = Regex::new(r"\d+").unwrap();
+    
+  
+    re.find_iter(input)
+        .map(|digits| digits.as_str().parse::<u128>().unwrap())
+        .collect()
 }

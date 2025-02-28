@@ -1,10 +1,10 @@
 use std::env;
-use tests::input;
+use tests::input::extract_numbers;
 use tests::lib::fibbonnacci;
 
 fn main() {
     let f = "Donemmanuelo237";
-    let y: Vec<u128> = input::parse_number(f);
+    let numbers = extract_numbers(f);
     let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
         std::process::exit(1);
@@ -15,14 +15,15 @@ fn main() {
     });
     let v: u128 = max_threshold.trim().parse().expect("invalid input");
     let u: bool = enable_fib.trim().parse().expect("invalid input");
-    for i in 0..y.len() {
-    if u == true && v >= y[i]{
-        let x = fibbonnacci(v, u, y[i]);
-        println!("The fibbonnacci of {:?} is: {:?}", y, x);
+  for i in 0..numbers.len() {
+    if u == true && v >= numbers[i]{
+        let x = fibbonnacci(v, u, numbers[i]);
+        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], x);
     }
 }
- 
 }
+ 
+
 
 mod tests;/* 
 
