@@ -13,4 +13,8 @@ jobs:
         with:
           max_threshold: 100
           enable_fib: true
+      - name: Run Docker Container
+        run: |
+          docker build -t my-fibbot .
+          docker run --rm -v $(pwd):/workspace my-fibbot ./target/release/fibbot 100 true
 
