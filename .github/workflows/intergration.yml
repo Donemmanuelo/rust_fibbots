@@ -22,7 +22,7 @@ jobs:
       - name: Run My Custom Action
         uses: ./
         env:
-          max_threshold: 100
+          max_threshold: 1000
           enable_fib: true
 
       # Build and run the Docker container
@@ -30,7 +30,7 @@ jobs:
         run: |
           docker build -t my-fibbot .
           docker run --rm \
-            -e max_threshold=100 \
+            -e max_threshold=1000 \
             -e enable_fib=true \
             -v $(pwd):/workspace \
             my-fibbot ./target/release/fibbot
