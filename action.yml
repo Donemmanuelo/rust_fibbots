@@ -10,7 +10,7 @@ on:
       required: false
       default: 100
     enable_fib:  # id of enable_fib
-    description: 'maximum threshold value'
+    description: 'enable fib value'
     required: true
     default: true
   runs:
