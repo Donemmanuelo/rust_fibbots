@@ -3,7 +3,7 @@ use std::env;
 use tests::lib::fibbonnacci;
 
 fn main() {
-    let y = 1;
+    let y = 123;
     let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
         std::process::exit(1);
