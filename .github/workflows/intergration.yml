@@ -1,13 +1,16 @@
-
 name: CI Workflow
 on: 
- push:
- pull_request: 
+  push:
+  pull_request: 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Rust
+        uses: actions/setup-rust@v1
+      - name: Build
+        run: cargo build --release
       - name: Run My Custom Action
         uses: ./
         with:
@@ -17,4 +20,3 @@ jobs:
         run: |
           docker build -t my-fibbot .
           docker run --rm -v $(pwd):/workspace my-fibbot ./target/release/fibbot 100 true
-
