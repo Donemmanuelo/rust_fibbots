@@ -1,12 +1,12 @@
 name: Rust CI Input
 inputs:
   max_threshold:   # id of max_threshold
-    description: 'maximum threshold value'
+    description: 'Maximum threshold value'
     required: false
     default: 100
-enable_fib:  # id of enable_fib
-    description: 'enable fib value'
-    required: true
+  enable_fib:  # id of enable_fib
+    description: 'Enable fib value'
+    required: false  # Change to false if not required
     default: true
 runs:
   using: 'docker'
