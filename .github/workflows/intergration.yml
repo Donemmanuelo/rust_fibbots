@@ -11,10 +11,6 @@ jobs:
       - name: Run My Custom Action
         uses: ./
         with:
-<<<<<<< HEAD
-          - max_threshold: 100
-          - enable_fib: true
-=======
           max_threshold: 100
           enable_fib: true
->>>>>>> 3c7538ea55f278a3135bfc717861bdd543db76e7
+
