@@ -3,17 +3,6 @@ name: Rust CI
 on:
   push:
   pull_request:
-  workflow_dispatch:
-    inputs:
-      enable_fib:
-        description: 'Build type (debug or release)'
-        required: true
-        default: 'true'
-        type: boolean
-      max_threshold:
-       description: 'Build type (debug or release)'
-       default: '100'
-       type: number
 
 env:
   CARGO_TERM_COLOR: always
@@ -30,6 +19,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/my-rust-action
+        with:
+          max_threshold: 100
+          enable: true
       - run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
-      - run: cargo build --verbose --${{ github.event.inputs.enable_fib }}  --${{ github.event.inputs.threshold }}
+      - run: cargo build --verbose 
       - run: cargo test --verbose
