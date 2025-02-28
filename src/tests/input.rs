@@ -1,6 +1,6 @@
-pub fn parse_number(input: &str) -> Vec<f64> {
+pub fn parse_number(input: &str) -> Vec<u128> {
     input
     .split_whitespace()
-    .map(|n| n.parse::<f64>().unwrap_or(0.0))
+    .filter_map(|n| n.parse::<u128>().ok())
     .collect()
 }

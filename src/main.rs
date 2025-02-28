@@ -4,7 +4,7 @@ use tests::lib::fibbonnacci;
 
 fn main() {
     let f = "Donemmanuelo237";
-    let y: Vec<f64> = input::parse_number(f);
+    let y: Vec<u128> = input::parse_number(f);
     let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
         std::process::exit(1);
@@ -13,7 +13,7 @@ fn main() {
         eprintln!("Environment variable 'enable_fib' not set");
         std::process::exit(1);
     });
-    let v: f64 = max_threshold.trim().parse().expect("invalid input");
+    let v: u128 = max_threshold.trim().parse().expect("invalid input");
     let u: bool = enable_fib.trim().parse().expect("invalid input");
     for i in 0..y.len() {
     if u == true && v >= y[i]{
