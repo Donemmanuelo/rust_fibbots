@@ -8,7 +8,7 @@ RUN cargo build --release
 
 FROM debian:latest 
 
-Run apt-get update && apt-get install libssl-dev -y
+RUN apt-get update && apt-get install libssl-dev -y
 
 COPY --from=builder /app/target/release/fibbot /app/fibbot
 
