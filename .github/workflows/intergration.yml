@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 name: CI Workflow
 on: [push, pull_request:]
 jobs:
@@ -11,31 +11,3 @@ jobs:
         with:
           - max_threshold: 100
           - enable_fib: true
-=======
-name: Rust CI
-
-on:
-  push:
-  pull_request:
-
-env:
-  CARGO_TERM_COLOR: always
-
-jobs:
-  build_and_run:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        profile: minimal
-        override: true
-    - run: cargo build --verbose
-    - run: cargo test --verbose
-    - name: Build Docker image
-      run: docker build -t my-rust-image .
-    - name: Run Docker image with arguments
-      run: docker run --rm my-rust-image ${{ inputs.argument }}
->>>>>>> 8c243535475c116bb96d42811cf31f85f22ee415

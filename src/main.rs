@@ -1,17 +1,17 @@
 
-use tests::lib::fibbonnacci;
+use std::env;
 
+use tests::lib::fibbonnacci;
 fn main() {
-    let y = 100;
-    let max_threshold = std::env::var("1000").expect("max_threshold should have a value");
-    let enable_fib = std::env::var("true").expect("enable_fib should have a value");
-    println!("{y}");
+    let y = 1;
+    let max_threshold = env::var("max_threshold").unwrap();
+    let enable_fib = env::var("enable_fib").unwrap();
     let v: u128 = max_threshold.trim().parse().expect("invalid input");
     let u: bool = enable_fib.trim().parse().expect("invalid input");
- 
-if u == true && y <= v {
+  
+if u == true && v >= y {
     let x = fibbonnacci(v, u, y);
-    println!("The fibbonacci of y is: {:?}", x);
+    println!("The fibbonacci of {y} is: {:?}", x);
 }
    
 }
