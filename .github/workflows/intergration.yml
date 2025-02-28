@@ -1,0 +1,12 @@
+name: CI Workflow
+on: [push, pull_request:]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run My Custom Action
+        uses: ./
+        with:
+          - max_threshold: 100
+          - enable_fib: true
