@@ -1,21 +1,16 @@
 name: Rust CI Input
-on:
-  push:
-  pull_request:
-
-  workflow_dispatch:
-    inputs:
-    max_threshold:   # id of max_threshold
-      description: 'maximum threshold value'
-      required: false
-      default: 100
-    enable_fib:  # id of enable_fib
+inputs:
+  max_threshold:   # id of max_threshold
     description: 'maximum threshold value'
+    required: false
+    default: 100
+enable_fib:  # id of enable_fib
+    description: 'enable fib value'
     required: true
     default: true
-  runs:
-    using: 'docker'
-    image: 'Dockerfile'
-    args:
-      - ${{ inputs.max_threshold }}
-      - ${{ inputs.enable_fib }}
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.max_threshold }}
+    - ${{ inputs.enable_fib }}
