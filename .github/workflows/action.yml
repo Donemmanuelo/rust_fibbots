@@ -19,6 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@3
       - uses: ./.github/actions/my-rust-action
         with:
           max_threshold: 100
