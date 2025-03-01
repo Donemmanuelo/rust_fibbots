@@ -31,6 +31,13 @@ jobs:
       - name: Build the program
         run: cargo build --release
 
+      - name: Run FibBot
+        uses: Donemmanuelo/rust_fibbots@main
+        with:
+          pr_number: ${{ github.event.pull_request.number }}
+          enable_fib: "true"
+          max_threshold: "100"
+          github_token: ${{ secrets.GITHUB_TOKEN }}  
     
       - name: Set environment variables
         run: |
