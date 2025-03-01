@@ -24,7 +24,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let v: u128 = max_threshold.trim().parse().expect("invalid input");
     let u: bool = enable_fib.trim().parse().expect("invalid input");
 
-    let token = env::var("TOKEN").expect("TOKEN not set");
+    let token = env::var("INPUT_TOKEN").expect("TOKEN not set");
 
     let repository = env::var("REPOSITORY").expect("REPOSITORY not set");
     let pr_number = env::var("PR_NUMBER").expect("PR_NUMBER not set");
