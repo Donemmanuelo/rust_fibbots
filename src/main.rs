@@ -3,7 +3,7 @@ use tests::input::extract_numbers;
 use tests::lib::fibbonnacci;
 
 fn main() {
-    let f = "Donemmanuelo237";
+    let f = "384Donemmanuelo237";
     let numbers = extract_numbers(f);
     let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
