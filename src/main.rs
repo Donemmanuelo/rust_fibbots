@@ -23,7 +23,7 @@ fn main() {
     let repo = "rust_fibbots"; 
     let pr_number = 1;
     dotenv().ok();
-    let _github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
+    let github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
 
    
   for i in 0..numbers.len() {
