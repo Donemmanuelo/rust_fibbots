@@ -1,18 +1,25 @@
-name: Rust CI Input
-inputs:
-  max_threshold:   # id of max_threshold
-    description: 'Maximum threshold value'
-    required: false
-    default: 100
-  enable_fib:  # id of enable_fib
-    description: 'Enable fib value'
-    required: false  # Change to false if not required
-    default: true
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.max_threshold }}
-    - ${{ inputs.enable_fib }}
+  name: Rust CI Input
+  inputs:
+    max_threshold:   # id of max_threshold
+      description: 'Maximum threshold value'
+      required: false
+      default: 100
+    enable_fib:  # id of enable_fib
+      description: 'Enable fib value'
+      required: false  # Change to false if not required
+      default: true
+  runs:
+    using: 'docker'
+    image: 'Dockerfile'
+    args:
+      - ${{ inputs.max_threshold }}
+      - ${{ inputs.enable_fib }}
+      
+  name: Run Fibbot 
+   run: |
+    export PR_NUMBER="${{ inputs.pr_number }}"
+    export GITHUB)TOKEN="${{ inputs.token }}"
+    shell: bash
 
-  
+
+    
