@@ -45,7 +45,7 @@ jobs:
       - name: Fetch PR Details
         id: fetch-pr
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub-provided token
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # GitHub-provided token
           REPOSITORY: ${{ github.repository }}       # Repository name (e.g., owner/repo)
           PR_NUMBER: ${{ github.event.number }}      # PR number from the event
         run: |
