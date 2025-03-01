@@ -12,3 +12,4 @@ serde_json = "1.0"
 dotenv = "0.15"
 num-bigint = { version = "0.4", features = ["serde"] }
 serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }  # Add tokio runtime

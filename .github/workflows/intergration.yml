@@ -1,77 +1,44 @@
-name: Post Fibonacci Comment
-on: 
-  pull_request: 
-    types:  [opened, synchronize, reopened]
+name: Fibonacci Comment on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
-  post-comment:
+  fibonacci:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        toolchain:
-          - stable
+
     steps:
-      # Check out the repository
-      - uses: actions/checkout@v4
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Cache cargo registry and build
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
-
-      # Build the Rust project
-      - name: Build
-        run: cargo build --release
-
-      # Run the custom action with environment variables
-      - name: Run My Custom Action
-        uses: ./
-        with:
-          max_threshold: 1000
-          enable_fib: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub-provided token
+      # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Fetch PR Details
-        id: fetch-pr
-        env:
-          REPOSITORY: ${{ github.repository }}       # Repository name (e.g., owner/repo)
-               # PR number from the event
-        run: |
-          # Make API call to fetch PR details
-          RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/$REPOSITORY/pulls/$PR_NUMBER")
-      - name: Comment on PR
-        uses: actions/github-script@v6
+      # Step 2: Set up Rust
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
         with:
-         script: |
-          const prNumber = ${{ github.event.number }};
-          github.rest.issues.createComment({
-            issue_number: prNumber,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: "Thank you for submitting this PR! We will review it soon."
-          });
+          toolchain: stable
+          override: true
+
+      # Step 3: Build the Rust program
+      - name: Build the program
+        run: cargo build --release
+
+      # Step 4: Set environment variables
+      - name: Set environment variables
+        env:
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ github.event.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "GITHUB_REPOSITORY_OWNER=$GITHUB_REPOSITORY_OWNER" >> $GITHUB_ENV
+          echo "GITHUB_REPOSITORY_NAME=$GITHUB_REPOSITORY_NAME" >> $GITHUB_ENV
+          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> $GITHUB_ENV
 
 
       # Build and run the Docker container
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-            repository: owner/repo-name
       - name: Run Docker Container
         run: |
           docker build -t my-fibbot .
