@@ -28,7 +28,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let u: bool = enable_fib.trim().parse().expect("invalid input");
 
     // Get environment variables
-    let repo_owner = env::var("GITHUB_REPO_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
+    let repo_owner = env::var("GITHUB_ENV").expect("GITHUB_REPOSITORY_OWNER not set");
     let repo_name = env::var("GITHUB_REPO_NAME").expect("GITHUB_REPOSITORY_NAME not set");
     let pr_number = env::var("PR_NUMBER").expect("PR_NUMBER not set");
     let token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
