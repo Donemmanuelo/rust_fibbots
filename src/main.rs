@@ -15,10 +15,19 @@ fn main() {
     });
     let v: u128 = max_threshold.trim().parse().expect("invalid input");
     let u: bool = enable_fib.trim().parse().expect("invalid input");
+    let owner = "Donemmanuelo"; 
+    let repo = "rust_fibbots"; 
+    let pr_number = 1;
+    
+
   for i in 0..numbers.len() {
     if u == true && v >= numbers[i]{
         let x = fibbonnacci(v, u, numbers[i]);
         println!("The fibbonnacci of {:?} is: {:?}", numbers[i], x);
+
+    if let Err(e) = post_comment_to_pr(owner, repo, pr_number, x) {
+        eprintln!("Error posting comment: {}", e);
+    }
     }
 }
 }
