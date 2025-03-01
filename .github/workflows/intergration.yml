@@ -1,13 +1,21 @@
-name: Fibonacci Comment on PR
+name: "Run FibBot"
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize]
 
-jobs:
-  fibonacci:
-    runs-on: ubuntu-latest
+permissions:
+  pull-requests: write
+  contents: read
+  issues: write
 
+jobs:
+  run-fibbot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     steps:
      
       - name: Checkout code
