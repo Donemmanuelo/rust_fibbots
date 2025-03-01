@@ -3,6 +3,8 @@ use tests::input::extract_numbers;
 use tests::lib::fibbonnacci;
 use tests::value::bal;
 use tests::comment::post_comment_to_pr;
+use dotenv::dotenv;
+use std::env;
 fn main() {
     let f: &str = &bal();
     let numbers = extract_numbers(f);
@@ -19,7 +21,8 @@ fn main() {
     let owner = "Donemmanuelo"; 
     let repo = "rust_fibbots"; 
     let pr_number = 1;
-
+    dotenv().ok();
+    let github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
 
   for i in 0..numbers.len() {
     if u == true && v >= numbers[i]{
@@ -31,6 +34,7 @@ fn main() {
     }
     }
 }
+
 }
  
 
