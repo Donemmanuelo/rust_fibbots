@@ -28,10 +28,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let u: bool = enable_fib.trim().parse().expect("invalid input");
 
     // Get environment variables
-    let repo_owner = env::var("GITHUB_REPOSITORY_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
-    let repo_name = env::var("GITHUB_REPOSITORY_NAME").expect("GITHUB_REPOSITORY_NAME not set");
+    let repo_owner = env::var("GITHUB_REPO_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
+    let repo_name = env::var("GITHUB_REPO_NAME").expect("GITHUB_REPOSITORY_NAME not set");
     let pr_number = env::var("PR_NUMBER").expect("PR_NUMBER not set");
-    let github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
+    let token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
 
     // Create a reqwest client
     let client = Client::new();
@@ -45,7 +45,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
    
     let diff_response = client
         .get(&diff_url)
-        .header("Authorization", format!("Bearer {}", github_token))
+        .header("Authorization", format!("Bearer {}", token))
         .header("User-Agent", "reqwest")
         .header("Accept", "application/vnd.github.v3.diff")
         .send()
@@ -98,7 +98,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Make the POST request to post the comment
     let response = client
         .post(&comment_url)
-        .header("Authorization", format!("Bearer {}", github_token))
+        .header("Authorization", format!("Bearer {}", token))
         .header("User-Agent", "reqwest")
         .header("Accept", "application/vnd.github.v3+json")
         .json(&comment_body)
