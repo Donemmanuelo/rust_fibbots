@@ -92,8 +92,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create the API URL for posting a comment
     let comment_url = format!(
-        "https://api.github.com/repos/{}/issues/{}/comments",
-         repo_name, pr_number
+        "https://api.github.com/repos/{}/{}/issues/{}/comments",
+        repo_owner, repo_name, pr_number
     );
 
     // Make the POST request to post the comment
