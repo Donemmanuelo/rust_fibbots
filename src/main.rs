@@ -29,6 +29,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Get environment variables
     //let repo_owner = env::var("GITHUB_ENV").expect("GITHUB_REPOSITORY_OWNER not set");
+    let repo_owner = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY_OWNER not set");
     let repo_name = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY_NAME not set");
     let pr_number = env::var("GITHUB_EVENT_NAME").expect("PR_NUMBER not set");
     let token = env::var("INPUT_GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
@@ -38,8 +39,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Fetch the pull request diff
     let diff_url = format!(
-        "https://api.github.com/repos/{}/pulls/{}",
-         repo_name, pr_number
+        "https://api.github.com/repos/{}/{}/pulls/{}",
+         repo_owner, repo_name, pr_number
     );
 
    
