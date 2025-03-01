@@ -1,9 +1,11 @@
 use std::env;
 use tests::input::extract_numbers;
 use tests::lib::fibbonnacci;
+use tests::value::bal;
+
 
 fn main() {
-    let f = "384Donemmanuelo237";
+    let f: &str = &bal() as &str;
     let numbers = extract_numbers(f);
     let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
@@ -43,5 +45,4 @@ mod test {
         assert_ne!(fibbonnacci(100, false, z), 21);
         assert_eq!(fibbonnacci(1, true, 1), 1);
     }
-}
-*/
+}*/
