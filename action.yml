@@ -18,7 +18,7 @@
   name: Run Fibbot 
    run: |
     export PR_NUMBER="${{ inputs.pr_number }}"
-    export GITHUB)TOKEN="${{ inputs.token }}"
+    export GITHUB_TOKEN="${{ inputs.token }}"
     shell: bash
 
 
