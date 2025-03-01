@@ -4,6 +4,7 @@ use tests::lib::fibbonnacci;
 use tests::value::bal;
 use tests::comment::post_comment_to_pr;
 use dotenv::dotenv;
+#[derive(serde::Serialize)]
 fn main() {
     let f: &str = &bal();
     let numbers = extract_numbers(f);
