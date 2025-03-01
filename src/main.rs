@@ -28,7 +28,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let u: bool = enable_fib.trim().parse().expect("invalid input");
 
     // Get environment variables
-    let repo_owner = env::var("GITHUB_ENV").expect("GITHUB_REPOSITORY_OWNER not set");
+    //let repo_owner = env::var("GITHUB_ENV").expect("GITHUB_REPOSITORY_OWNER not set");
     let repo_name = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY_NAME not set");
     let pr_number = env::var("GITHUB_EVENT_NAME").expect("PR_NUMBER not set");
     let token = env::var("secrets.GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
@@ -38,8 +38,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Fetch the pull request diff
     let diff_url = format!(
-        "https://api.github.com/repos/{}/{}/pulls/{}",
-        repo_owner, repo_name, pr_number
+        "https://api.github.com/repos/{}/pulls/{}",
+         repo_name, pr_number
     );
 
    
@@ -91,8 +91,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create the API URL for posting a comment
     let comment_url = format!(
-        "https://api.github.com/repos/{}/{}/issues/{}/comments",
-        repo_owner, repo_name, pr_number
+        "https://api.github.com/repos/{}/issues/{}/comments",
+         repo_name, pr_number
     );
 
     // Make the POST request to post the comment
