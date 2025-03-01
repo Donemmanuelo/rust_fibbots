@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Check out the repository
-      - uses: actions/checkout@v2
+   
 
       # Set up Rust toolchain
       - name: Set up Rust
@@ -16,6 +16,22 @@ jobs:
         with:
           toolchain: stable
           override: true
+          
+      - name: Cache cargo registry and build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+          toolchain: stable
+         
       # Build the Rust project
       - name: Build
         run: cargo build --release
