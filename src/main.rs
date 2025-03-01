@@ -30,7 +30,10 @@ fn main() {
 
     if let Err(e) = post_comment_to_pr(owner, repo, pr_number, x) {
         eprintln!("Error posting comment: {}", e);
+    }else {
+        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], x);
     }
+    
     }
 }
 
