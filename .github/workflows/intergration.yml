@@ -1,3 +1,24 @@
+Skip to content
+Navigation Menu
+Donemmanuelo
+rust_fibbots
+
+Type / to search
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+CI Workflow
+Update intergration.yml #86
+Jobs
+Run details
+Workflow file for this run
+.github/workflows/intergration.yml at ea9f41d
 name: CI Workflow
 on: 
   push:
@@ -9,20 +30,6 @@ jobs:
     steps:
       # Check out the repository
       - uses: actions/checkout@v2
-      - name: Cache cargo registry and build
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
-
-  
 
       # Set up Rust toolchain
       - name: Set up Rust
@@ -33,18 +40,14 @@ jobs:
         run: cargo build --release
 
       # Run the custom action with environment variables
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Run My Custom Action
         uses: ./
         env:
-
-
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           max_threshold: 1000
           enable_fib: true
           run: echo "$GITHUB_TOKEN"
+
       # Build and run the Docker container
       - name: Run Docker Container
         run: |
@@ -54,3 +57,4 @@ jobs:
             -e enable_fib=true \
             -v $(pwd):/workspace \
             my-fibbot ./target/release/fibbot
+Update intergration.yml · Donemmanuelo/rust_fibbots@ea9f41d  
