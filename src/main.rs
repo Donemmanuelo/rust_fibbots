@@ -23,9 +23,10 @@ fn main() {
     let repo = "rust_fibbots"; 
     let pr_number = 1;
     dotenv().ok();
-    let _github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
-
-   
+    let _token = env::var("GITHUB_TOKEN").unwrap_or_else(|_| {
+        eprintln!("GITHUB_TOKEN is not set. Please set the token and try again.");
+        std::process::exit(1);
+    });
   for i in 0..numbers.len() {
     if u == true && v >= numbers[i]{
         let x = fibbonnacci(v, u, numbers[i]);
