@@ -1,24 +1,3 @@
-Skip to content
-Navigation Menu
-Donemmanuelo
-rust_fibbots
-
-Type / to search
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-CI Workflow
-Update intergration.yml #86
-Jobs
-Run details
-Workflow file for this run
-.github/workflows/intergration.yml at ea9f41d
 name: CI Workflow
 on: 
   push:
