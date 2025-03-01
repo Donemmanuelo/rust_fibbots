@@ -13,11 +13,11 @@ struct Comment {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let f: &str = &bal();
     let numbers = extract_numbers(f);
-    let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
+    let max_threshold = env::var("GITHUB_MAX_THRESHOLD").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
         std::process::exit(1);
     });
-    let enable_fib = env::var("enable_fib").unwrap_or_else(|_| {
+    let enable_fib = env::var("GITHUB_ENABLE_FIB").unwrap_or_else(|_| {
         eprintln!("Environment variable 'enable_fib' not set");
         std::process::exit(1);
     });
@@ -67,7 +67,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
         }
     }
-    
+
     Ok(())
 
 }
