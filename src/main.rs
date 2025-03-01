@@ -16,7 +16,7 @@ struct CommentBody {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
-    let max_threshold = env::var("INIPUT_MAX_THRESHOLD").unwrap_or_else(|_| {
+    let max_threshold = env::var("INPUT_MAX_THRESHOLD").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
         std::process::exit(1);
     });
