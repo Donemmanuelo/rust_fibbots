@@ -42,7 +42,6 @@ jobs:
           echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
           echo "MAX_THRESHOLD=100" >> $GITHUB_ENV  # Set max_threshold
 
-
      
       - name: Run Docker Container
         run: |
