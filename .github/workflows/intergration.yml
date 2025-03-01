@@ -37,10 +37,10 @@ jobs:
       - name: Run My Custom Action
         uses: ./
         with:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # GitHub-provided token
-        env:
           max_threshold: 1000
           enable_fib: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub-provided token
       - name: Checkout code
         uses: actions/checkout@v3
 
