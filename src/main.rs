@@ -16,11 +16,11 @@ struct CommentBody {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
-    let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
+    let max_threshold = env::var("INIPUT_MAX_THRESHOLD").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
         std::process::exit(1);
     });
-    let enable_fib = env::var("enable_fib").unwrap_or_else(|_| {
+    let enable_fib = env::var("INPUT_ENABLE_FIB").unwrap_or_else(|_| {
         eprintln!("Environment variable 'enable_fib' not set");
         std::process::exit(1);
     });
