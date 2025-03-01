@@ -15,15 +15,6 @@
       - ${{ inputs.max_threshold }}
       - ${{ inputs.enable_fib }}
       
-<<<<<<< HEAD
-
-=======
-  name: Run Fibbot 
-   run: |
-    export PR_NUMBER="${{ inputs.pr_number }}"
-    export GITHUB_TOKEN="${{ inputs.token }}"
-    shell: bash
->>>>>>> 6218b77606fd84a86416ac27211e4872cd2b5c15
 
 
     

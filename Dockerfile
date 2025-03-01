@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY . .
 
+RUN cargo clean
 RUN cargo build --release
 
 FROM debian:latest 
