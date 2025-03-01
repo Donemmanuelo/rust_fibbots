@@ -1,12 +1,16 @@
+use reqwest::blocking::Client;
+use serde::Serialize;
 use std::env;
 use tests::input::extract_numbers;
 use tests::lib::fibbonnacci;
 use tests::value::bal;
-use tests::comment::post_comment_to_pr;
-use dotenv::dotenv;
-use tests::ser::MyStruct;
 
-fn main() {
+use tests::ser::MyStruct;
+#[derive(Serialize)]
+struct Comment {
+    body: String,
+}
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let f: &str = &bal();
     let numbers = extract_numbers(f);
     let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
@@ -19,50 +23,72 @@ fn main() {
     });
     let v: u128 = max_threshold.trim().parse().expect("invalid input");
     let u: bool = enable_fib.trim().parse().expect("invalid input");
-    let owner = "Donemmanuelo"; 
-    let repo = "rust_fibbots"; 
-    let pr_number = 1;
-    dotenv().ok();
-    let _token = env::var("GITHUB_TOKEN").unwrap_or_else(|_| {
-        eprintln!("GITHUB_TOKEN is not set. Please set the token and try again.");
-        std::process::exit(1);
-    });
-  for i in 0..numbers.len() {
-    if u == true && v >= numbers[i]{
-        let x = fibbonnacci(v, u, numbers[i]);
-        let t = MyStruct{value: x};
-        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], t.value);
 
-    if let Err(e) = post_comment_to_pr(owner, repo, pr_number, &t.value) {
-        eprintln!("Error posting comment: {}", e);
-    }else {
-        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], t.value);
+    let token = env::var("TOKEN").expect("TOKEN not set");
+
+    let repository = env::var("REPOSITORY").expect("REPOSITORY not set");
+    let pr_number = env::var("PR_NUMBER").expect("PR_NUMBER not set");
+
+    let url = format!(
+        "https://api.github.com/repos/{}/issues/{}/comments",
+        repository, pr_number
+    );
+    for i in 0..numbers.len() {
+        if u == true && v >= numbers[i] {
+            let x = fibbonnacci(v, u, numbers[i]);
+            let t = MyStruct { value: x };
+            println!("The fibbonnacci of {:?} is: {:?}", numbers[i], t.value);
+
+            let comment_body = format!(
+                "The Fibonacci number at position {} is **{}**.",
+                numbers[i], t.value
+            );
+            let comment = Comment {
+                body: comment_body.to_string(),
+            };
+    
+
+    // let comment_body = "This is a comment posted from a Rust script running in a GitHub Actions workflow!";
+
+    // Send the POST request
+    let client = Client::new();
+    let response = client
+        .post(&url)
+        .header("Authorization", format!("Bearer {}", token))
+        .header("User-Agent", "Rust GitHub API Client")
+        .json(&comment)
+        .send()?;
+        
+
+    if response.status().is_success() {
+        println!("Comment posted successfully!");
+    } else {
+        println!("Failed to post comment. Status: {}", response.status());
+    }
+        }
     }
     
-    }
-}
+    Ok(())
 
 }
- 
 
+mod tests; /*
 
-mod tests;/* 
+           #[cfg(test)]
+           mod test {
+               use crate::tests::lib::fibbonnacci;
 
-#[cfg(test)]
-mod test {
-    use crate::tests::lib::fibbonnacci;
+               #[test]
+               fn test_main() {
+                   use crate::main;
+                   assert_eq!(main(), ());
+               }
+               let  z: Vec<f64> = vec![8.0];
 
-    #[test]
-    fn test_main() {
-        use crate::main;
-        assert_eq!(main(), ());
-    }
-    let  z: Vec<f64> = vec![8.0];
-
-    #[test]
-    fn test_fibbonacci() {
-        assert_ne!(fibbonnacci(100, false, z), 21);
-        assert_eq!(fibbonnacci(1, true, 1), 1);
-    }
-}
-*/
+               #[test]
+               fn test_fibbonacci() {
+                   assert_ne!(fibbonnacci(100, false, z), 21);
+                   assert_eq!(fibbonnacci(1, true, 1), 1);
+               }
+           }
+           */

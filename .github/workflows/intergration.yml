@@ -1,10 +1,10 @@
-name: CI Workflow
+name: Post Fibonacci Comment
 on: 
-  push:
   pull_request: 
+    types: [opened, synchronize]
 
 jobs:
-  build:
+  post-comment:
     runs-on: ubuntu-latest
     steps:
       # Check out the repository
@@ -13,7 +13,9 @@ jobs:
       # Set up Rust toolchain
       - name: Set up Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
-
+        with:
+          toolchain: stable
+          override: true
       # Build the Rust project
       - name: Build
         run: cargo build --release
@@ -25,11 +27,23 @@ jobs:
       - name: Run My Custom Action
         uses: ./
         env:
-          MY_TOKEN: ${{ secrets.MY_TOKEN }}
+          TOKEN: ${{ secrets.TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
           max_threshold: 1000
           enable_fib: true
-     
+      - name: Call GitHub API
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+               https://api.github.com/repos/${{ github.repository }}/issues
       # Build and run the Docker container
+      - name: Get pull request details
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+               https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}
       - name: Run Docker Container
         run: |
           docker build -t my-fibbot .

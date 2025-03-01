@@ -1,4 +1,4 @@
-use reqwest::blocking::Client;
+/*use reqwest::blocking::Client;
 use serde_json::json;
 use std::env;
 use num_bigint::BigInt;
@@ -30,4 +30,4 @@ pub fn post_comment_to_pr(owner: &str, repo: &str, pr_number: u64, body: &BigInt
     }
 
     Ok(())
-}
+} */
