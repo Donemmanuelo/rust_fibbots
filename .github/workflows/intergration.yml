@@ -24,6 +24,10 @@ jobs:
         env:
           max_threshold: 1000
           enable_fib: true
+      - name: Use secret
+        uses: ./
+        env:
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
 
       # Build and run the Docker container
       - name: Run Docker Container
