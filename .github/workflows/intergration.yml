@@ -36,4 +36,3 @@ jobs:
             -e enable_fib=true \
             -v $(pwd):/workspace \
             my-fibbot ./target/release/fibbot
-Update intergration.yml · Donemmanuelo/rust_fibbots@ea9f41d  
