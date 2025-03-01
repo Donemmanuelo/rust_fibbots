@@ -36,6 +36,8 @@ jobs:
       # Run the custom action with environment variables
       - name: Run My Custom Action
         uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # GitHub-provided token
         env:
           max_threshold: 1000
           enable_fib: true
@@ -45,7 +47,6 @@ jobs:
       - name: Fetch PR Details
         id: fetch-pr
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # GitHub-provided token
           REPOSITORY: ${{ github.repository }}       # Repository name (e.g., owner/repo)
           PR_NUMBER: ${{ github.event.number }}      # PR number from the event
         run: |
