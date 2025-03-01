@@ -1,21 +1,17 @@
 name: "Run FibBot"
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize]
 
 permissions:
-  pull-requests: write
-  contents: read
-  issues: write
+  pull-requests: write  # Required to post comments on pull requests
+  contents: read        # Required to read repository contents
 
 jobs:
   run-fibbot:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
+
     steps:
      
       - name: Checkout code
