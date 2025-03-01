@@ -34,6 +34,7 @@ jobs:
         run: |
           curl -H "Authorization: Bearer $GITHUB_TOKEN" \
                https://api.github.com/repos/${{ github.repository }}/issues
+
       # Build and run the Docker container
       - name: Checkout repository
         uses: actions/checkout@v3
