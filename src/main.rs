@@ -27,7 +27,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let token = env::var("GITHUB_TOKEN").expect("TOKEN not set");
 
     let repository = env::var("GITHUB_REPOSITORY").expect("REPOSITORY not set");
-    let pr_number = env::var("PR_NUMBER").expect("PR_NUMBER not set");
+    let pr_number = env::var("GITHUB_PR_NUMBER").expect("PR_NUMBER not set");
 
     let url = format!(
         "https://api.github.com/repos/{}/issues/{}/comments",
