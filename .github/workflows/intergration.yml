@@ -21,9 +21,6 @@ jobs:
         run: cargo build --release
 
       # Run the custom action with environment variables
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Run My Custom Action
         uses: ./
         env:
@@ -33,17 +30,12 @@ jobs:
           enable_fib: true
       - name: Call GitHub API
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TOKEN: ${{ secrets.TOKEN }}
         run: |
           curl -H "Authorization: Bearer $GITHUB_TOKEN" \
                https://api.github.com/repos/${{ github.repository }}/issues
       # Build and run the Docker container
-      - name: Get pull request details
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          curl -H "Authorization: Bearer $GITHUB_TOKEN" \
-               https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}
+  
       - name: Run Docker Container
         run: |
           docker build -t my-fibbot .
