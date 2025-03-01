@@ -2,9 +2,8 @@ use reqwest::blocking::Client;
 use serde_json::json;
 use std::env;
 use num_bigint::BigInt;
-#[derive(serde::Serialize)]
 
-pub fn post_comment_to_pr(owner: &str, repo: &str, pr_number: u64, body: BigInt) -> Result<(), reqwest::Error> {
+pub fn post_comment_to_pr(owner: &str, repo: &str, pr_number: u64, body: &BigInt) -> Result<(), reqwest::Error> {
     // Get GitHub token from environment variable
     let github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
 

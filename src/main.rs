@@ -4,7 +4,8 @@ use tests::lib::fibbonnacci;
 use tests::value::bal;
 use tests::comment::post_comment_to_pr;
 use dotenv::dotenv;
-#[derive(serde::Serialize)]
+use tests::ser::MyStruct;
+
 fn main() {
     let f: &str = &bal();
     let numbers = extract_numbers(f);
@@ -22,17 +23,19 @@ fn main() {
     let repo = "rust_fibbots"; 
     let pr_number = 1;
     dotenv().ok();
-    let github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
+    let _github_token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
 
+   
   for i in 0..numbers.len() {
     if u == true && v >= numbers[i]{
         let x = fibbonnacci(v, u, numbers[i]);
-        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], x);
+        let t = MyStruct{value: x};
+        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], t.value);
 
-    if let Err(e) = post_comment_to_pr(owner, repo, pr_number, x) {
+    if let Err(e) = post_comment_to_pr(owner, repo, pr_number, &t.value) {
         eprintln!("Error posting comment: {}", e);
     }else {
-        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], x);
+        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], t.value);
     }
     
     }
