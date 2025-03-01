@@ -15,5 +15,5 @@ runs:
     - ${{ inputs.max_threshold }}
     - ${{ inputs.enable_fib }}
   env:
-   GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+    MY_TOKEN: ${{ secrets.MY_TOKEN }}
   
