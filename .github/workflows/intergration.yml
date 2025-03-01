@@ -39,10 +39,12 @@ jobs:
       - name: Run My Custom Action
         uses: ./
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           max_threshold: 1000
           enable_fib: true
-     
+          run: echo "$GITHUB_TOKEN"
       # Build and run the Docker container
       - name: Run Docker Container
         run: |
