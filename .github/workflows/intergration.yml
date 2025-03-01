@@ -48,7 +48,7 @@ jobs:
         id: fetch-pr
         env:
           REPOSITORY: ${{ github.repository }}       # Repository name (e.g., owner/repo)
-          PR_NUMBER: ${{ github.event.pull_request.number }}      # PR number from the event
+          PR_NUMBER: ${{ github.event.number }}      # PR number from the event
         run: |
           # Make API call to fetch PR details
           RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
