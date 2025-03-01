@@ -41,7 +41,6 @@ jobs:
     
       - name: Set environment variables
         run: |
-          echo "GITHUB_REPO_OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "GITHUB_REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
           echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
           echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
