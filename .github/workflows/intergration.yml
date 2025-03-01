@@ -9,35 +9,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
+     
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Rust
+     
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
 
-      # Step 3: Build the Rust program
       - name: Build the program
         run: cargo build --release
 
-      # Step 4: Set environment variables
+    
       - name: Set environment variables
-        env:
-          REPO_OWNER: ${{ github.repository_owner }}  # Correct variable name
-          REPO_NAME: ${{ github.event.repository.name }}  # Correct variable name
-          PR_NUMBER: ${{ github.event.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "REPO_OWNER=$REPO_OWNER" >> $GITHUB_ENV
-          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
-          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
-          e
+          echo "REPO_OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
+          echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
+          echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
 
-      # Build and run the Docker container
+
+
+     
       - name: Run Docker Container
         run: |
           docker build -t my-fibbot .
