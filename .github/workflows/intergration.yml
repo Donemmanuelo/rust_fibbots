@@ -9,20 +9,6 @@ jobs:
     steps:
       # Check out the repository
       - uses: actions/checkout@v2
-      - name: Cache cargo registry and build
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
-
-  
 
       # Set up Rust toolchain
       - name: Set up Rust
@@ -33,18 +19,14 @@ jobs:
         run: cargo build --release
 
       # Run the custom action with environment variables
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Run My Custom Action
         uses: ./
         env:
-
-
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           max_threshold: 1000
           enable_fib: true
           run: echo "$GITHUB_TOKEN"
+
       # Build and run the Docker container
       - name: Run Docker Container
         run: |
