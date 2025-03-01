@@ -25,7 +25,7 @@ jobs:
       - name: Run My Custom Action
         uses: ./
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
           max_threshold: 1000
           enable_fib: true
      
