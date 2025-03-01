@@ -7,30 +7,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Check out the repository
-      - uses: actions/checkout@v2
 
-      # Set up Rust toolchain
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Use GITHUB_TOKEN
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "Using GITHUB_TOKEN"
 
       - name: Set up Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
 
-      # Build the Rust project
       - name: Build
         run: cargo build --release
 
-      # Run the custom action with environment variables
       - name: Run My Custom Action
         uses: ./
         env:
           max_threshold: 1000
           enable_fib: true
      
-      # Build and run the Docker container
+     
       - name: Run Docker Container
         run: |
           docker build -t my-fibbot .
