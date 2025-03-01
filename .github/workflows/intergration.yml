@@ -12,11 +12,11 @@ jobs:
 
       # Set up Rust toolchain
       - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v1 
         with:
           toolchain: stable
           override: true
-          
+
       - name: Cache cargo registry and build
         uses: actions/cache@v4
         with:
@@ -29,8 +29,6 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
-
-          toolchain: stable
          
       # Build the Rust project
       - name: Build
