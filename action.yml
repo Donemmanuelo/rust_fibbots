@@ -38,7 +38,6 @@ runs:
           ${{ runner.os }}-cargo-build-
 
     - name: Build and run the Rust script
-    - uses: actions/checkout@v3 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_REPOSITORY: ${{ github.repository }}
@@ -48,5 +47,4 @@ runs:
       run: |
         cargo build --release
         ./target/release/fibbot
-  
   
