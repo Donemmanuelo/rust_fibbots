@@ -9,4 +9,9 @@ inputs:
     description: 'Whether to enable posting the Fibonacci comment (true/false).'
     required: true
     type: boolean
-
+runs: 
+  using: 'docker' 
+  image: 'Dockerfile'
+  args: 
+  - ${{ inputs.enable_fib }}
+  - ${{ inputs.max_threshold }}
