@@ -45,6 +45,7 @@ runs:
         MAX_THRESHOLD: ${{ inputs.max_threshold }}
         ENABLE_FIB: ${{ inputs.enable_fib }}
       run: |
-        cargo build --release
-        ./target/release/fibbot
+         echo "$GITHUB_TOKEN"
+         cargo build --release
+         ./target/release/fibbot
   
