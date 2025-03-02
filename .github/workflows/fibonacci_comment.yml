@@ -1,0 +1,15 @@
+name: Fibonacci Comment on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  fibonacci-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Fibonacci Comment Action
+        uses: ./
+        with:
+          max_threshold: 100  # Example value, can be changed by the user
+          enable_fib: true    # Example value, can be changed by the user

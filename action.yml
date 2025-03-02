@@ -1,20 +1,49 @@
-  name: Rust CI Input
-  inputs:
-    max_threshold:   # id of max_threshold
-      description: 'Maximum threshold value'
-      required: false
-      default: 100
-    enable_fib:  # id of enable_fib
-      description: 'Enable fib value'
-      required: false  # Change to false if not required
-      default: true
-  runs:
-    using: 'docker'
-    image: 'Dockerfile'
-    args:
-      - ${{ inputs.max_threshold }}
-      - ${{ inputs.enable_fib }}
-      
+name: 'Fibonacci Comment on PR'
+description: 'Posts a comment on a PR with the Fibonacci of numerical values in the diff.'
+inputs:
+  max_threshold:
+    description: 'The maximum numerical value for which Fibonacci will be computed.'
+    required: true
+    type: number
+  enable_fib:
+    description: 'Whether to enable posting the Fibonacci comment (true/false).'
+    required: true
+    type: boolean
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
 
-    
+    - name: Cache Cargo registry
+      uses: actions/cache@v3
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-registry-
+
+    - name: Cache Cargo build
+      uses: actions/cache@v3
+      with:
+        path: target
+        key: ${{ runner.os }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-build-
+
+    - name: Build and run the Rust script
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        MAX_THRESHOLD: ${{ inputs.max_threshold }}
+        ENABLE_FIB: ${{ inputs.enable_fib }}
+      run: |
+        cargo build --release
+        ./target/release/fibonacci_comment
