@@ -10,7 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run Fibonacci Comment Action
-        uses: ./
+        id: result
+        uses: Donemmanuelo/fibbot@main
         with:
           max_threshold: 100  # Example value, can be changed by the user
           enable_fib: true    # Example value, can be changed by the user
