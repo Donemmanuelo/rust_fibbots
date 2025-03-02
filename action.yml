@@ -9,6 +9,11 @@ inputs:
     description: 'Whether to enable posting the Fibonacci comment (true/false).'
     required: true
     type: boolean
+  token:
+    description: 'GitHub token for authentication'
+    required: true
+    default: '${{ secrets.GITHUB_TOKEN }}'  # You can't use secrets directly here
+
 runs:
   using: 'composite'
   steps:
@@ -39,7 +44,7 @@ runs:
 
     - name: Build and run the Rust script
       env:
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TOKEN: ${{ inputs.secrets.GITHUB_TOKEN }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         MAX_THRESHOLD: ${{ inputs.max_threshold }}
