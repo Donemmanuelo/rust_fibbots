@@ -45,8 +45,8 @@ runs:
         PR_NUMBER: ${{ github.event.pull_request.number }}
         MAX_THRESHOLD: ${{ inputs.max_threshold }}
         ENABLE_FIB: ${{ inputs.enable_fib }}
+    - name: Running the program
       run: |
-         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/Donemmanuelo
          cargo build --release
          ./target/release/fibbot
   
