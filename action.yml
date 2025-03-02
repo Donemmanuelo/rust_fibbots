@@ -38,7 +38,7 @@ runs:
           ${{ runner.os }}-cargo-build-
 
     - name: Build and run the Rust script
-    - uses: ./
+    - uses: ./  
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_REPOSITORY: ${{ github.repository }}
