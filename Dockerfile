@@ -10,10 +10,10 @@ FROM debian:latest
 
 RUN apt-get update && apt-get install libssl-dev -y
 
-COPY --from=builder /app/target/release/fibbot /app/fibbot
+COPY --from=builder /app/target/release/prime-number /app/prime-number
 
-RUN chmod +x /app/fibbot
+RUN chmod +x /app/prime-number
 
-ENTRYPOINT ["/app/fibbot"]
+ENTRYPOINT ["/app/prime-number"]
 
 
