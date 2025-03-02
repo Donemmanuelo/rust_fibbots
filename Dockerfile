@@ -14,6 +14,6 @@ COPY --from=builder /app/target/release/fibbot /app/fibbot
 
 RUN chmod +x /app/fibbot
 
-CMD ["./fibbot"]
+ENTRYPOINT ["/app/fibbot"]
 
 
