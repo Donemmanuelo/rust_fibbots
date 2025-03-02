@@ -55,6 +55,9 @@ jobs:
 
       - name: Build and run the Rust script
         uses: Donemmanuelo/rust_fibbot@main
+        with:
+          max_threshold: 100  
+          enable_fib: true 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -70,6 +73,3 @@ jobs:
       - name: Run Fibonacci Comment Action
         id: result
         uses: Donemmanuelo/rust_fibbot@main
-        with:
-          max_threshold: 100  # Example value, can be changed by the user
-          enable_fib: true    # Example value, can be changed by the user
