@@ -39,7 +39,7 @@ runs:
 
     - name: Build and run the Rust script
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         MAX_THRESHOLD: ${{ inputs.max_threshold }}
