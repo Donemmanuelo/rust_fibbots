@@ -106,6 +106,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .send()
         .await?;
 
+        
     // Check the response status
     if response.status().is_success() {
         println!("Comment posted successfully!");
