@@ -38,10 +38,8 @@ runs:
           ${{ runner.os }}-cargo-build-
 
     - name: Build and run the Rust script
-      with: 
-        credentials:  ${{ secrets.GITHUB_TOKEN }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TOKEN: ${{ secrets.TOKEN }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         MAX_THRESHOLD: ${{ inputs.max_threshold }}
