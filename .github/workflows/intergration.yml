@@ -28,7 +28,7 @@ jobs:
         run: cargo build --release
 
       - name: Run FibBot
-        uses: ./
+        uses: actions/checkout@v3
         with:
           pr_number: ${{ github.event.pull_request.number }}
           enable_fib: "true"
