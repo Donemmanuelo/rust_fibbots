@@ -39,7 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Fetch the pull request diff
     let diff_url = format!(
-        "https://api.github.com/{repo_owner}/{repo_name}/{pr_number}",
+        "https://api.github.com/{repo_name}/{pr_number}",
          
     );
 
