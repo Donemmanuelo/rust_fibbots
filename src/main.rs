@@ -29,10 +29,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Get environment variables
     //let repo_owner = env::var("GITHUB_ENV").expect("GITHUB_REPOSITORY_OWNER not set");
-    let repo_owner = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY_OWNER not set");
+    let repo_owner = env::var("GITHUB_REPOSITORY_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
     let repo_name = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY_NAME not set");
     let pr_number = env::var("GITHUB_EVENT_NAME").expect("PR_NUMBER not set");
-    let token = env::var("INPUT_GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
+    let token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
 
     // Create a reqwest client
     let client = Client::new();
@@ -106,7 +106,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .send()
         .await?;
 
-        
+
     // Check the response status
     if response.status().is_success() {
         println!("Comment posted successfully!");
