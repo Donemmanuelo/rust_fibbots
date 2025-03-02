@@ -8,7 +8,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // GitHub API details
     let repo = env::var("GITHUB_REPOSITORY")?;
     let pr_number = env::var("PR_NUMBER")?;
-    let token = env::var("TOKEN")?;
+    let token = env::var("GITHUB_TOKEN")?;
     let api_url = format!(
         "https://api.github.com/repos/{}/pulls/{}/files",
         repo, pr_number
