@@ -48,3 +48,5 @@ runs:
       run: |
         cargo build --release
         ./target/release/fibbot
+  
+  
