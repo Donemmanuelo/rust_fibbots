@@ -8,6 +8,7 @@ jobs:
   fibonacci-comment:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Run Fibonacci Comment Action
         uses: ./
         with:

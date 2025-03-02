@@ -46,4 +46,4 @@ runs:
         ENABLE_FIB: ${{ inputs.enable_fib }}
       run: |
         cargo build --release
-        ./target/release/fibonacci_comment
+        ./target/release/fibbot
