@@ -23,32 +23,38 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .send()?
         .json::<Vec<serde_json::Value>>()?;
 
-        let mut numbers = Vec::new();
-        for file in response {
-            if let Some(patch) = file["patch"].as_str() {
-                for line in patch.lines() {
-                    for word in line.split_whitespace() {
-                        // Skip empty strings
-                        if word.is_empty() {
-                            continue;
+    // Extract numerical values from the diff
+    let mut numbers = Vec::new();
+
+    // Iterate over each file in the response
+    for file in response {
+        // Check if the "patch" field exists and is a string
+        if let Some(patch) = file.get("patch").and_then(|v| v.as_str()) {
+            // Iterate over each line in the patch
+            for line in patch.lines() {
+                // Split the line into words and iterate over each word
+                for word in line.split_whitespace() {
+                    // Remove or handle special characters before parsing
+                    let cleaned_word = word
+                        .chars()
+                        .filter(|c| c.is_numeric() || *c == '+' || *c == '-') // Allow + and - for signed numbers
+                        .collect::<String>();
+    
+                    // Try to parse the cleaned word as a u128
+                    match cleaned_word.parse::<u128>() {
+                        Ok(num) => {
+                            // If parsing is successful, push the number to the vector
+                            numbers.push(num);
                         }
-                        // Strip leading '+' or '-' if present
-                        let stripped_word = word.trim_start_matches(|c| c == '+' || c == '-');
-                        // Parse only if the stripped word is numeric
-                        if stripped_word.chars().all(|c| c.is_ascii_digit()) {
-                            match stripped_word.parse::<u128>() {
-                                Ok(num) => numbers.push(num),
-                                Err(e) => println!("Failed to parse '{}': {}", stripped_word, e),
-                            }
-                        } else {
-                            println!("Skipping non-numeric word: {}", word);
+                        Err(_) => {
+                            // Handle invalid numbers (e.g., log or ignore)
+                            // You can add logging or other error handling here if needed
                         }
                     }
                 }
             }
         }
-        
-        
+    }
     
     let max_threshold: u128 = env::var("MAX_THRESHOLD")?.parse()?;
     let enable_fib: bool = env::var("ENABLE_FIB")?.parse()?;
