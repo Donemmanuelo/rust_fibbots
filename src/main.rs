@@ -38,28 +38,29 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         current_number.push(char);
                     } else if !current_number.is_empty() {
                         // If a non-digit is encountered and current_number is not empty, parse it
-                        if let Ok(num) = current_number.parse::<u128>() {
-                            numbers.push(num);
+                       // if let Ok(num) = current_number.parse::<u128>() 
+                       {
+                       //     numbers.push(num);
                         }
                         // Reset the current number
-                        current_number.clear();
-                        println!("{current_number}");
+                       // current_number.clear();
+                       // println!("{current_number}");
                     }
                 }
                 // Handle the case where the line ends with a number
                 if !current_number.is_empty() {
                     if let Ok(num) = current_number.parse::<u128>() {
-                    println!("{num}");
+                numbers.push(num);
                     }
                 }
             }
         }
     }
-    let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
+    let max_threshold = env::var("INPUT_MAX_THRESHOLD").unwrap_or_else(|_| {
         eprintln!("Environment variable 'max_threshold' not set");
         std::process::exit(1);
     });
-    let enable_fib = env::var("enable_fib").unwrap_or_else(|_| {
+    let enable_fib = env::var("INPUT_ENABLE_FIB").unwrap_or_else(|_| {
         eprintln!("Environment variable 'enable_fib' not set");
         std::process::exit(1);
     });
