@@ -4,6 +4,7 @@ use serde_json::json;
 use std::env;
 use tests::lib::fibonacci;
 
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // GitHub API details
     let repo = env::var("GITHUB_REPOSITORY")?;
@@ -22,8 +23,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .header("User-Agent", "Rust-GitHub-API")
         .send()?
         .json::<Vec<serde_json::Value>>()?;
-
-    // Extract numerical values from the diff
     let mut numbers = Vec::new();
 
     // Iterate over each file in the response
@@ -32,38 +31,31 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         if let Some(patch) = file.get("patch").and_then(|v| v.as_str()) {
             // Iterate over each line in the patch
             for line in patch.lines() {
-                // Split the line into words and iterate over each word
-                for word in line.split_whitespace() {
-                    // Remove or handle special characters before parsing
-                    //let cleaned_word = word.trim()
-                    //.chars()
-                    //.filter(|c| c.is_numeric() || *c == '+' || *c == '-') // Allow + and - for signed numbers
-                    //.collect::<String>();
-                    let word = word.to_owned();
-                    let cleaned_word: String = word
-                        .trim()
-                        .chars()
-                        .filter(|char| char.is_digit(10))
-                        .collect();
-
-                    // Try to parse the cleaned word as a u128
-                    if cleaned_word != " " {
-                        match cleaned_word.parse::<u128>() {
-                            Ok(num) => {
-                                // If parsing is successful, push the number to the vector
-                                numbers.push(num);
-                            }
-                            Err(e) => {
-                                println!("error found a white space {e}")
-                                // Handle invalid numbers (e.g., log or ignore)
-                                // You can add logging or other error handling here if needed
-                            }
+                // Collect all contiguous sequences of digits
+                let mut current_number = String::new();
+                for char in line.chars() {
+                    if char.is_numeric() {
+                        // If the character is a digit, add it to the current number
+                        current_number.push(char);
+                    } else if !current_number.is_empty() {
+                        // If the current number is not empty and a non-digit is encountered, parse it
+                        if let Ok(num) = current_number.parse::<u128>() {
+                            numbers.push(num);
                         }
+                        // Reset the current number
+                        current_number.clear();
+                    }
+                }
+                // Handle the case where the line ends with a number
+                if !current_number.is_empty() {
+                    if let Ok(num) = current_number.parse::<u128>() {
+                        numbers.push(num);
                     }
                 }
             }
         }
     }
+    
 
     let max_threshold: u128 = env::var("MAX_THRESHOLD")?.parse()?;
     let enable_fib: bool = env::var("ENABLE_FIB")?.parse()?;
