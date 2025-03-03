@@ -37,7 +37,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     if char.is_numeric() {
                         // If the character is a digit, add it to the current number
                         current_number.push(char);
-                    } else if !current_number.is_empty() {
+
                         // If the current number is not empty and a non-digit is encountered, parse it
                         if let Ok(num) = current_number.parse::<u128>() {
                             numbers.push(num);
