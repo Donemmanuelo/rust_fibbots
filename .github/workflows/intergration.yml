@@ -39,7 +39,7 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: Build and run the Rust script
-        uses: ./
+        uses: Donemmanuelo/fibbot@fibb
         with:
           max_threshold: 100  
           enable_fib: true 
