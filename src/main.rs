@@ -31,12 +31,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         if let Some(patch) = file.get("patch").and_then(|v| v.as_str()) {
             // Iterate over each line in the patch
             for line in patch.lines() {
-                println!("{line}");
-                // Collect all contiguous sequences of digits
+                            // Collect all contiguous sequences of digits
                 let mut current_number = String::new();
                 for char in line.chars() {
                     if char.is_numeric() {
-                        println!("{char}");
                         // If the character is a digit, add it to the current number
                         current_number.push(char);
                    
@@ -47,9 +45,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         // Reset the current number
                         current_number.clear();
                     }
-                }
-                // Handle the case where the line ends with a number
-                if !current_number.is_empty() {
+              
                     if let Ok(num) = current_number.parse::<u128>() {
                         numbers.push(num);
                     }
