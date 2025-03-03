@@ -42,9 +42,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                        {
                        //     numbers.push(num);
                         }
-                        // Reset the current number
-                       // current_number.clear();
-                       // println!("{current_number}");
+                    // Reset the current number
+                        current_number.clear();
+                        println!("{current_number}");
                     }
                 }
                 // Handle the case where the line ends with a number
