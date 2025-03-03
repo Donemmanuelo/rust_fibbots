@@ -95,7 +95,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "fibbot2"
+name = "fibbot"
 version = "0.1.0"
 dependencies = [
  "num-bigint",
