@@ -43,11 +43,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         }
                         // Reset the current number
                         current_number.clear();
+                        println!("{current_number}");
                     }
                 }
                 // Handle the case where the line ends with a number
                 if !current_number.is_empty() {
                     if let Ok(num) = current_number.parse::<u128>() {
+                        println!("{num}");
                         numbers.push(num);
                     }
                 }
