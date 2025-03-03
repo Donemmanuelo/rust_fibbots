@@ -35,11 +35,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 // Split the line into words and iterate over each word
                 for word in line.split_whitespace() {
                     // Remove or handle special characters before parsing
-                    let cleaned_word = word.trim()
-                        .chars()
-                        .filter(|c| c.is_numeric() || *c == '+' || *c == '-') // Allow + and - for signed numbers
-                        .collect::<String>();
-    
+                    //let cleaned_word = word.trim()
+                        //.chars()
+                        //.filter(|c| c.is_numeric() || *c == '+' || *c == '-') // Allow + and - for signed numbers
+                        //.collect::<String>();
+                        let  word = word.to_owned();
+                        let cleaned_word: String = word.chars().filter(|char| char.is_digit(10)).collect();
+                    
                     // Try to parse the cleaned word as a u128
                     match cleaned_word.parse::<u128>() {
                         Ok(num) => {
