@@ -26,29 +26,28 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut numbers = Vec::new();
         for file in response {
             if let Some(patch) = file["patch"].as_str() {
-                println!("Patch Content: {:?}", patch); // Debug: Print patch content
                 for line in patch.lines() {
-                    println!("Line: {:?}", line); // Debug: Print each line
                     for word in line.split_whitespace() {
-                        println!("Word: {:?}", word); // Debug: Print each word
                         // Skip empty strings
                         if word.is_empty() {
-                            println!("Skipping empty word"); // Debug: Log skipped empty words
                             continue;
                         }
-                        // Parse only if the word is numeric
-                        if word.chars().all(|c| c.is_ascii_digit()) {
-                            match word.parse::<u128>() {
+                        // Strip leading '+' or '-' if present
+                        let stripped_word = word.trim_start_matches(|c| c == '+' || c == '-');
+                        // Parse only if the stripped word is numeric
+                        if stripped_word.chars().all(|c| c.is_ascii_digit()) {
+                            match stripped_word.parse::<u128>() {
                                 Ok(num) => numbers.push(num),
-                                Err(e) => println!("Failed to parse '{}': {}", word, e),
+                                Err(e) => println!("Failed to parse '{}': {}", stripped_word, e),
                             }
                         } else {
-                            println!("Skipping non-numeric word: {}", word); // Debug: Log skipped non-numeric words
+                            println!("Skipping non-numeric word: {}", word);
                         }
                     }
                 }
             }
         }
+        
         
     
     let max_threshold: u128 = env::var("MAX_THRESHOLD")?.parse()?;
