@@ -24,26 +24,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .json::<Vec<serde_json::Value>>()?;
 
     // Extract numerical values from the diff
- let mut numbers = Vec::new();
-for file in response {
-    if let Some(patch) = file["patch"].as_str() {
-        for line in patch.lines() {
-            for word in line.split_whitespace() {
-                // Skip empty strings
-                if word.is_empty() {
-                    continue;
-                }
-                // Parse only if the word is numeric
-                if word.chars().all(|c| c.is_ascii_digit()) {
-                    if let Ok(num) = word.parse::<u128>() {
-                        numbers.push(num);
+    let mut numbers = Vec::new();
+    for file in response {
+        if let Some(patch) = file["patch"].as_str() {
+            for line in patch.lines() {
+                for word in line.split_whitespace() {
+                    // Skip empty strings
+                    if word.is_empty() {
+                        continue;
+                    }
+                    // Parse only if the word is numeric
+                    if word.chars().all(|c| c.is_ascii_digit()) {
+                        match word.parse::<u128>() {
+                            Ok(num) => numbers.push(num),
+                            Err(e) => println!("Failed to parse '{}': {}", word, e),
+                        }
                     }
                 }
             }
         }
     }
-}
-
+    
     let max_threshold: u128 = env::var("MAX_THRESHOLD")?.parse()?;
     let enable_fib: bool = env::var("ENABLE_FIB")?.parse()?;
 
