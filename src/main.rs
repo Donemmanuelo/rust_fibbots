@@ -37,8 +37,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     if char.is_numeric() {
                         // If the character is a digit, add it to the current number
                         current_number.push(char);
-
-                        // If the current number is not empty and a non-digit is encountered, parse it
+                    } else if !current_number.is_empty() {
+                        // If a non-digit is encountered and current_number is not empty, parse it
                         if let Ok(num) = current_number.parse::<u128>() {
                             numbers.push(num);
                         }
@@ -56,7 +56,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
     
-
     let max_threshold: u128 = env::var("MAX_THRESHOLD")?.parse()?;
     let enable_fib: bool = env::var("ENABLE_FIB")?.parse()?;
 
