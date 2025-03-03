@@ -39,7 +39,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         println!("{char}");
                         // If the character is a digit, add it to the current number
                         current_number.push(char);
-                    } else if !current_number.is_empty() {
+                   
                         // If a non-digit is encountered and current_number is not empty, parse it
                         if let Ok(num) = current_number.parse::<u128>() {
                             numbers.push(num);
