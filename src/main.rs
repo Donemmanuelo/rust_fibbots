@@ -40,7 +40,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         //.filter(|c| c.is_numeric() || *c == '+' || *c == '-') // Allow + and - for signed numbers
                         //.collect::<String>();
                         let  word = word.to_owned();
-                        let cleaned_word: String = word.chars().filter(|char| char.is_digit(10)).collect();
+                        let cleaned_word: String = word.trim().chars().filter(|char| char.is_digit(10)).collect();
                     
                     // Try to parse the cleaned word as a u128
                     match cleaned_word.parse::<u128>() {
@@ -48,7 +48,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             // If parsing is successful, push the number to the vector
                             numbers.push(num);
                         }
-                        Err(_) => {
+                        Err(e) => { println!("error found a white space {e}")
                             // Handle invalid numbers (e.g., log or ignore)
                             // You can add logging or other error handling here if needed
                         }
