@@ -41,6 +41,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         .collect::<String>();
     
                     // Try to parse the cleaned word as a u128
+                    let cleaned_word = cleaned_word.trim();
                     match cleaned_word.parse::<u128>() {
                         Ok(num) => {
                             // If parsing is successful, push the number to the vector
