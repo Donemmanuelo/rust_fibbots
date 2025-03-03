@@ -50,7 +50,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 if !current_number.is_empty() {
                     if let Ok(num) = current_number.parse::<u128>() {
                         println!("{num}");
-                        numbers.push(num);
+                       
                     }
                 }
             }
