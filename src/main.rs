@@ -4,7 +4,6 @@ use serde_json::json;
 use std::env;
 use tests::lib::fibonacci;
 
-
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // GitHub API details
     let repo = env::var("GITHUB_REPOSITORY")?;
@@ -31,13 +30,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         if let Some(patch) = file.get("patch").and_then(|v| v.as_str()) {
             // Iterate over each line in the patch
             for line in patch.lines() {
-                            // Collect all contiguous sequences of digits
+                // Collect all contiguous sequences of digits
                 let mut current_number = String::new();
                 for char in line.chars() {
                     if char.is_numeric() {
                         // If the character is a digit, add it to the current number
                         current_number.push(char);
-                   
+                    } else if !current_number.is_empty() {
                         // If a non-digit is encountered and current_number is not empty, parse it
                         if let Ok(num) = current_number.parse::<u128>() {
                             numbers.push(num);
@@ -45,7 +44,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         // Reset the current number
                         current_number.clear();
                     }
-              
+                }
+                // Handle the case where the line ends with a number
+                if !current_number.is_empty() {
                     if let Ok(num) = current_number.parse::<u128>() {
                         numbers.push(num);
                     }
@@ -53,7 +54,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
     }
-    
+
     let max_threshold: u128 = env::var("MAX_THRESHOLD")?.parse()?;
     let enable_fib: bool = env::var("ENABLE_FIB")?.parse()?;
 
