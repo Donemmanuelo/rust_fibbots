@@ -49,16 +49,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 // Handle the case where the line ends with a number
                 if !current_number.is_empty() {
                     if let Ok(num) = current_number.parse::<u128>() {
-                    
+                    println!("{num}");
                     }
                 }
             }
         }
     }
-
-    let max_threshold: u128 = env::var("MAX_THRESHOLD")?.parse()?;
-    let enable_fib: bool = env::var("ENABLE_FIB")?.parse()?;
-
+    let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
+        eprintln!("Environment variable 'max_threshold' not set");
+        std::process::exit(1);
+    });
+    let enable_fib = env::var("enable_fib").unwrap_or_else(|_| {
+        eprintln!("Environment variable 'enable_fib' not set");
+        std::process::exit(1);
+    });
+    let max_threshold: u128 = max_threshold.trim().parse().expect("expect max threshold");
+    let enable_fib: bool = enable_fib.trim().parse().expect("invaid input");
     // Compute Fibonacci for each number
     if enable_fib {
         let mut comment = "Fibonacci of numbers in the diff:\n".to_string();
