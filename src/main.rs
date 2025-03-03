@@ -1,8 +1,8 @@
 mod tests;
-use tests::lib::fibonacci;
 use reqwest::blocking::Client;
 use serde_json::json;
 use std::env;
+use tests::lib::fibonacci;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // GitHub API details
@@ -36,28 +36,35 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 for word in line.split_whitespace() {
                     // Remove or handle special characters before parsing
                     //let cleaned_word = word.trim()
-                        //.chars()
-                        //.filter(|c| c.is_numeric() || *c == '+' || *c == '-') // Allow + and - for signed numbers
-                        //.collect::<String>();
-                        let  word = word.to_owned();
-                        let cleaned_word: String = word.trim().chars().filter(|char| char.is_digit(10)).collect();
-                    
+                    //.chars()
+                    //.filter(|c| c.is_numeric() || *c == '+' || *c == '-') // Allow + and - for signed numbers
+                    //.collect::<String>();
+                    let word = word.to_owned();
+                    let cleaned_word: String = word
+                        .trim()
+                        .chars()
+                        .filter(|char| char.is_digit(10))
+                        .collect();
+
                     // Try to parse the cleaned word as a u128
-                    match cleaned_word.parse::<u128>() {
-                        Ok(num) => {
-                            // If parsing is successful, push the number to the vector
-                            numbers.push(num);
-                        }
-                        Err(e) => { println!("error found a white space {e}")
-                            // Handle invalid numbers (e.g., log or ignore)
-                            // You can add logging or other error handling here if needed
+                    if cleaned_word != " " {
+                        match cleaned_word.parse::<u128>() {
+                            Ok(num) => {
+                                // If parsing is successful, push the number to the vector
+                                numbers.push(num);
+                            }
+                            Err(e) => {
+                                println!("error found a white space {e}")
+                                // Handle invalid numbers (e.g., log or ignore)
+                                // You can add logging or other error handling here if needed
+                            }
                         }
                     }
                 }
             }
         }
     }
-    
+
     let max_threshold: u128 = env::var("MAX_THRESHOLD")?.parse()?;
     let enable_fib: bool = env::var("ENABLE_FIB")?.parse()?;
 
