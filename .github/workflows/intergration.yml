@@ -1,53 +1,53 @@
-name: Fibonacci Comment on PR
+name: Fibonacci Comment Workflow
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-
-permissions:
-  pull-requests: write
-  contents: read
-  
+    branches:
+      - main  # Trigger on pull requests targeting the main branch
 
 jobs:
-
   fibonacci-comment:
     runs-on: ubuntu-latest
-    
-  
+
     steps:
+      # Step 1: Check out the repository
       - name: Checkout repository
-        uses: actions/checkout@v2
-      
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Rust
       - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
 
-      - name: Cache cargo registry and build
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev pkg-config
 
-      - name: Build and run the Rust script
-        uses: Donemmanuelo/rust_fibbots@fibb
-        with:
-          max_threshold: 100  
-          enable_fib: true 
+      # Step 4: Build and run the Rust script
+      - name: Run Fibonacci script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          MAX_THRESHOLD: ${{ inputs.max_threshold }}
-          ENABLE_FIB: ${{ inputs.enable_fib }}
-     
-    
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
+          MAX_THRESHOLD: 20  # Maximum number for Fibonacci computation
+          ENABLE_FIB: true   # Enable/disable Fibonacci computation and comment posting
+        run: |
+          echo "Running Fibonacci script..."
+          cargo run --release
+
+      # Step 5: Post the comment
+      - name: Post comment to pull request
+        if: always()  # Ensure this step runs even if previous steps fail
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const commentBody = fs.readFileSync('comment_body.txt', 'utf8');
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody,
+            });
