@@ -11,16 +11,22 @@ jobs:
 
     steps:
       # Step 1: Check out the repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
 
-      # Step 2: Set up Rust
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
+      - name: Cache cargo registry and build
+        uses: actions/cache@v4
         with:
-          toolchain: stable
-          override: true
-
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
@@ -31,7 +37,7 @@ jobs:
       - name: Run Fibonacci script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
-          MAX_THRESHOLD: 20  # Maximum number for Fibonacci computation
+          MAX_THRESHOLD: 200  # Maximum number for Fibonacci computation
           ENABLE_FIB: true   # Enable/disable Fibonacci computation and comment posting
         run: |
           echo "Running Fibonacci script..."
