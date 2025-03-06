@@ -1,68 +1,109 @@
+
+use reqwest::Client;
+mod tests;
+use tests::lib::fibonacci;
+use serde::Serialize;
 use std::env;
-use tests::input::extract_numbers;
-use tests::lib::fibbonnacci;
-use tests::value::bal;
-use tests::comment::post_comment_to_pr;
-use dotenv::dotenv;
-use tests::ser::MyStruct;
-
-fn main() {
-    let f: &str = &bal();
-    let numbers = extract_numbers(f);
-    let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
-        eprintln!("Environment variable 'max_threshold' not set");
-        std::process::exit(1);
-    });
-    let enable_fib = env::var("enable_fib").unwrap_or_else(|_| {
-        eprintln!("Environment variable 'enable_fib' not set");
-        std::process::exit(1);
-    });
-    let v: u128 = max_threshold.trim().parse().expect("invalid input");
-    let u: bool = enable_fib.trim().parse().expect("invalid input");
-    let owner = "Donemmanuelo"; 
-    let repo = "rust_fibbots"; 
-    let pr_number = 1;
-    dotenv().ok();
-    let _token = env::var("GITHUB_TOKEN").unwrap_or_else(|_| {
-        eprintln!("GITHUB_TOKEN is not set. Please set the token and try again.");
-        std::process::exit(1);
-    });
-  for i in 0..numbers.len() {
-    if u == true && v >= numbers[i]{
-        let x = fibbonnacci(v, u, numbers[i]);
-        let t = MyStruct{value: x};
-        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], t.value);
-
-    if let Err(e) = post_comment_to_pr(owner, repo, pr_number, &t.value) {
-        eprintln!("Error posting comment: {}", e);
-    }else {
-        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], t.value);
-    }
-    
-    }
+#[derive(Debug)]
+#[derive(Serialize)]
+struct Comment {
+    body: String,
 }
 
-}
- 
 
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Parameters
+    let max_threshold: u128 = 200; // Maximum number for Fibonacci computation
+    let enable_fib: bool = true; // Enable/disable Fibonacci computation and comment posting
 
-mod tests;/* 
+    // GitHub API URL for fetching the pull request diff
+    let repo_owner = "donemmanuelo"; // Replace with the repository owner
+    let repo_name = "rust_fibbots"; // Replace with the repository name
+    let pull_number = 1; // Replace with the pull request number
+    let diff_url = format!(
+        "https://api.github.com/repos/{}/{}/pulls/{}/files",
+        repo_owner, repo_name, pull_number
+    );
 
-#[cfg(test)]
-mod test {
-    use crate::tests::lib::fibbonnacci;
+    // GitHub personal access token for authentication
+    let token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN environment variable not set");
 
-    #[test]
-    fn test_main() {
-        use crate::main;
-        assert_eq!(main(), ());
+    // Fetch the pull request diff
+    let client = Client::new();
+    let diff_response = client
+        .get(&diff_url)
+        .header("Authorization", format!("Bearer {}", token))
+        .header("User-Agent", "reqwest")
+        .header("Accept", "application/vnd.github.v3+json")
+        .send()
+        .await?;
+
+    if !diff_response.status().is_success() {
+        println!("Failed to fetch diff. Status: {}", diff_response.status());
+        let error_message = diff_response.text().await?;
+        println!("Error: {}", error_message);
+        return Ok(());
     }
-    let  z: Vec<f64> = vec![8.0];
 
-    #[test]
-    fn test_fibbonacci() {
-        assert_ne!(fibbonnacci(100, false, z), 21);
-        assert_eq!(fibbonnacci(1, true, 1), 1);
+    // Parse the diff to extract numerical values
+    let diff_text = diff_response.text().await?;
+    let numbers: Vec<u128> = diff_text
+        .split_whitespace()
+        .filter_map(|word| word.parse::<u128>().ok())
+        .filter(|&n| n <= max_threshold) // Filter numbers within the max_threshold
+        .collect();
+
+    // Check if Fibonacci computation and comment posting are enabled
+    if !enable_fib {
+        println!("Fibonacci computation and comment posting are disabled.");
+        return Ok(());
     }
+
+    // Calculate Fibonacci for each number
+    let mut results = Vec::new();
+    for number in numbers {
+        let fib = fibonacci(number);
+        results.push((number, fib));
+    }
+
+    // Format the results
+    let comment_body = if results.is_empty() {
+        format!("No numerical values found in the diff (max_threshold = {}).", max_threshold)
+    } else {
+        let mut output = format!("### Fibonacci Calculation Results (max_threshold = {})\n", max_threshold);
+        for (number, fib) in results {
+            output.push_str(&format!("- Position `{}`: Fibonacci = `{}`\n", number, fib));
+        }
+        output
+    };
+
+
+    // Post the comment to the pull request
+    let comment_url = format!(
+        "https://api.github.com/repos/{}/{}/issues/{}/comments",
+        repo_owner, repo_name, pull_number
+    );
+
+    let comment = Comment { body: comment_body };
+    let response = client
+        .post(&comment_url)
+        .header("Authorization", format!("Bearer {}", token))
+        .header("User-Agent", "reqwest")
+        .header("Accept", "application/vnd.github.v3+json")
+        .json(&comment)
+        .send()
+        .await?;
+
+    // Check the response status
+    if response.status().is_success() {
+        println!("Comment posted successfully!");
+    } else {
+        println!("Failed to post comment. Status: {}", response.status());
+        let error_message = response.text().await?;
+        println!("Error: {}", error_message);
+    }
+   // println!("{:?}", comment);
+
+    Ok(())
 }
-*/

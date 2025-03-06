@@ -1,18 +1,17 @@
-name: Rust CI Input
+name: 'Fibonacci Comment on PR'
+description: 'Posts a comment on a PR with the Fibonacci of numerical values in the diff.'
 inputs:
-  max_threshold:   # id of max_threshold
-    description: 'Maximum threshold value'
-    required: false
-    default: 100
-  enable_fib:  # id of enable_fib
-    description: 'Enable fib value'
-    required: false  # Change to false if not required
-    default: true
-runs:
-  using: 'docker'
+  max_threshold:
+    description: 'The maximum numerical value for which Fibonacci will be computed.'
+    required: true
+    type: number
+  enable_fib:
+    description: 'Whether to enable posting the Fibonacci comment (true/false).'
+    required: true
+    type: boolean
+runs: 
+  using: 'docker' 
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.max_threshold }}
-    - ${{ inputs.enable_fib }}
-
-  
+  args: 
+  - ${{ inputs.enable_fib }}
+  - ${{ inputs.max_threshold }}
