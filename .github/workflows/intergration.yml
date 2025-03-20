@@ -1,10 +1,11 @@
 name: Fibonacci Comment on PR
 
 on:
-  pull_request:
+ pull_request:
     branches: 
       - main
 jobs:
+
   fibonacci-comment:
     runs-on: ubuntu-latest
     permissions: 
