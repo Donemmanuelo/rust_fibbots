@@ -4,7 +4,7 @@ name: Fibonacci Comment on PR
 on: 
   push:
     branches:
-      - fib2
+      - fib2    
   pull_request:
     branches:
       - main
