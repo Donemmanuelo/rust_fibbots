@@ -1,3 +1,4 @@
+
 mod tests;
 use octocrab::Octocrab;
 use regex::Regex;
@@ -9,7 +10,6 @@ use std::error::Error;
 use tests::lib::fibonacci;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    // GitHub API token and repository details
 let github_token = env::var("TOKEN").map_err(|e| {
     eprintln!("Failed to fetch TOKEN: {:?}", e);
     e
@@ -40,17 +40,16 @@ let github_token = env::var("TOKEN").map_err(|e| {
     .map_err(|e| {
         eprintln!("Failed to initialize Octocrab: {:?}", e);
         e
+
     }).expect("could not connect");
 println!("request made succesfully");
+
 let user = octocrab.current().user().await
     .map_err(|e| {
         eprintln!("Failed to fetch user: {:?}", e);
         e
     })?;
 println!("Authenticated User: {:?}", user.login);
-
-
-
 
 //let user = octocrab.current().user().await?;
     // Fetch the pull request diff

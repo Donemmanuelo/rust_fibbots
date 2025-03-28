@@ -1,8 +1,17 @@
 name: Fibonacci Comment on PR
 
+<<<<<<< HEAD
 on:
   pull_request:
     branches: 
+=======
+on: 
+  push:
+    branches:
+      - fibb
+  pull_request:
+    branches:   
+>>>>>>> fibb
       - main
 jobs: 
   fibonacci-comment:
@@ -61,4 +70,8 @@ jobs:
         INPUT_ENABLE_FIB: true
         RUST_BACKTRACE: full
       run: |
+<<<<<<< HEAD
         cargo run --release
+=======
+        cargo run --release
+>>>>>>> fibb

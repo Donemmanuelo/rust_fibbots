@@ -1,3 +1,5 @@
+
+
 name: 'Fibonacci Comment On PR'
 description: 'Posts a comment on a PR with the Fibonacci of numerical values in the diff.'
 inputs:
@@ -20,4 +22,4 @@ runs:
         GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
         GITHUB_PULL_REQUEST_NUMBER: ${{ github.event.number }}
         INPUT_MAX_THRESHOLD: ${{ inputs.max_threshold }}
-        INPUT_ENABLE_FIB: ${{ inputs.enable_fib }}
+        INPUT_ENABLE_FIB: ${{ inputs.enable_fib }}   
