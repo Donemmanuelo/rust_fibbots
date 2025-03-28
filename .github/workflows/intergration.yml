@@ -1,6 +1,9 @@
 name: Fibonacci Comment on PR
 
 on: 
+  push:
+    branches:
+      - fibb
   pull_request:
     branches:   
       - main
