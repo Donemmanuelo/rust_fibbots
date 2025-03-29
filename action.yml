@@ -16,8 +16,4 @@ runs:
         cargo run
       env:
         TOKEN: ${{ secrets.TOKEN }}
-        GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
-        GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
-        GITHUB_PULL_REQUEST_NUMBER: ${{ github.event.number }}
-        INPUT_MAX_THRESHOLD: ${{ inputs.max_threshold }}
-        INPUT_ENABLE_FIB: ${{ inputs.enable_fib }}
+        GITENABLE_FIB: ${{ inputs.enable_fib }}
