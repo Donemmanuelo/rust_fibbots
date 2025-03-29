@@ -12,7 +12,6 @@ jobs:
   fibonacci-comment:
     runs-on: ubuntu-latest    
     permissions: 
-   
       packages: write
 
     steps:
