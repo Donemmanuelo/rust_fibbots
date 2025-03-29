@@ -3,7 +3,6 @@ mod tests;
 use octocrab::Octocrab;
 use regex::Regex;
 use std::env;
-<<<<<<< HEAD
 
 use std::error::Error;
 
@@ -90,30 +89,6 @@ println!("Diff URL: {:?}", diff_url);
             .collect();
         numbers.extend(file_numbers);
        
-=======
-use tests::input::extract_numbers;
-use tests::lib::fibbonnacci;
-use tests::value::bal;
-
-
-fn main() {
-    let f: &str = &bal() as &str;
-    let numbers = extract_numbers(f);
-    let max_threshold = env::var("max_threshold").unwrap_or_else(|_| {
-        eprintln!("Environment variable 'max_threshold' not set");
-        std::process::exit(1);
-    });
-    let enable_fib = env::var("enable_fib").unwrap_or_else(|_| {
-        eprintln!("Environment variable 'enable_fib' not set");
-        std::process::exit(1);
-    });
-    let v: u128 = max_threshold.trim().parse().expect("invalid input");
-    let u: bool = enable_fib.trim().parse().expect("invalid input");
-  for i in 0..numbers.len() {
-    if u == true && v >= numbers[i]{
-        let x = fibbonnacci(v, u, numbers[i]);
-        println!("The fibbonnacci of {:?} is: {:?}", numbers[i], x);
->>>>>>> fib
     }
     println!("Extracted Numbers: {:?}", numbers);
     // Calculate Fibonacci for each number (if enabled)
@@ -142,14 +117,5 @@ fn main() {
         println!("Fibonacci computation and posting are disabled.");
     }
 
-<<<<<<< HEAD
     Ok(())
 }
-=======
-    #[test]
-    fn test_fibbonacci() {
-        assert_ne!(fibbonnacci(100, false, z), 21);
-        assert_eq!(fibbonnacci(1, true, 1), 1);
-    }
-}*/
->>>>>>> fib
