@@ -12,7 +12,7 @@ jobs:
   fibonacci-comment:
     runs-on: ubuntu-latest    
     permissions: 
-      contents: read
+   
       packages: write
 
     steps:
